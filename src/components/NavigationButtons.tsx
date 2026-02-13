@@ -13,7 +13,7 @@ export default function NavigationButtons({ cartCount = 0, onCartClick, isCartOp
   };
 
   return (
-    <div className="nav-buttons-container" style={{ display: 'flex', alignItems: 'center', gap: '5rem', position: 'relative', zIndex: 9999 }}>
+    <div className="nav-buttons-container" style={{ display: 'flex', alignItems: 'center', gap: '5rem', position: 'relative', zIndex: 9999, marginTop: '1rem' }}>
       <button 
         onClick={scrollToShop}
         style={{ 

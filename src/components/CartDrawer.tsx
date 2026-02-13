@@ -113,6 +113,27 @@ export default function CartDrawer({
         <div className="cart-drawer-content">
           {cartItems.length === 0 ? (
             <div className="cart-drawer-empty">
+              <button 
+                className="cart-drawer-close-btn"
+                onClick={handleClose}
+                aria-label="Close cart"
+                style={{
+                  position: 'absolute',
+                  top: '1rem',
+                  right: '1rem',
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '1.5rem',
+                  fontWeight: '300',
+                  cursor: 'pointer',
+                  padding: '0.5rem',
+                  color: '#000',
+                  lineHeight: '1',
+                  zIndex: 10
+                }}
+              >
+                ×
+              </button>
               <p>Your cart is empty</p>
               <button className="cart-drawer-continue-shopping-mobile" onClick={handleContinueShopping}>
                 Continue Shopping
@@ -176,11 +197,6 @@ export default function CartDrawer({
                       {item.size && (
                         <div className="cart-drawer-item-size-container">
                           <p className="cart-drawer-item-size">Size: {item.size}</p>
-                        </div>
-                      )}
-                      {!item.size && (
-                        <div className="cart-drawer-item-size-container">
-                          <p className="cart-drawer-item-size" style={{color: '#999', fontStyle: 'italic'}}>No size selected</p>
                         </div>
                       )}
                       

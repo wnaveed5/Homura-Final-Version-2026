@@ -225,13 +225,14 @@ export default function ProductPage() {
     try {
       const image = product.images.edges[0]?.node;
       
+      const shouldHideSize = product.title.toLowerCase().includes('homura x options');
       const cartItem = {
         variantId: variant.id,
         title: product.title,
         price: parseFloat(variant.price.amount),
         quantity: quantity,
         image: image?.url,
-        size: selectedOptions.Size || selectedOptions.Title || 'Default',
+        size: shouldHideSize ? undefined : (selectedOptions.Size || selectedOptions.Title || 'Default'),
       };
       
       await addItem(cartItem);
@@ -325,12 +326,13 @@ export default function ProductPage() {
                 <Image
                   src={currentImage.url.replace(/(_\d+x\d+)/g, '').split('?')[0] + '?width=2048&quality=100'}
                   alt={currentImage.altText || product.title}
-                  width={1200}
+                  width={800}
                   height={1200}
                   className="product-image"
                   priority
                   quality={100} // Maximum quality for main image
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+                  style={{ width: '100%', height: 'auto' }}
                   placeholder="blur"
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                   onLoad={() => {
@@ -410,7 +412,7 @@ export default function ProductPage() {
           )}
 
           {/* Product Options */}
-          {product.options.map(option => (
+          {!product.title.toLowerCase().includes('homura x options') && product.options.map(option => (
             <div key={option.id} className="product-option">
               <label className="option-label">{option.name}</label>
               <div className="option-values">
@@ -453,12 +455,14 @@ export default function ProductPage() {
             </div>
 
             {/* Size Chart Button */}
-            <button 
-              className="size-chart-button"
-              onClick={() => setIsSizeChartOpen(true)}
-            >
-              Size Chart
-            </button>
+            {!product.title.toLowerCase().includes('homura x options') && (
+              <button 
+                className="size-chart-button"
+                onClick={() => setIsSizeChartOpen(true)}
+              >
+                Size Chart
+              </button>
+            )}
           </div>
 
         </div>

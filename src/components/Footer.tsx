@@ -53,7 +53,7 @@ export default function Footer() {
             <strong>Social</strong>
             <ul className="hmr-footer-sub-list">
               <li className="hmr-footer-sub-item">
-                <a href="https://www.instagram.com/homura.studios/" target="_blank" rel="noreferrer noopener">
+                <a href="https://www.instagram.com/homura.studios/?hl=en" target="_blank" rel="noreferrer noopener">
                   Instagram
                 </a>
               </li>

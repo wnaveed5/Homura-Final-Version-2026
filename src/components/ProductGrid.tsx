@@ -70,7 +70,15 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
         
         const productsList = data.products.edges.map((edge: { node: Product }) => edge.node);
         console.log('Products list:', productsList);
-        setProducts(productsList);
+        
+        // Move "Homura x Options" to the top
+        const sortedProducts = [...productsList].sort((a, b) => {
+          if (a.title.toLowerCase().includes('homura x options')) return -1;
+          if (b.title.toLowerCase().includes('homura x options')) return 1;
+          return 0;
+        });
+        
+        setProducts(sortedProducts);
       } catch (err) {
         setError('Failed to load products');
         console.error('Error loading products:', err);
@@ -158,13 +166,14 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
       const image = product.images.edges[0]?.node;
       console.log('Product image:', image);
       
+      const shouldHideSize = product.title.toLowerCase().includes('homura x options');
       const cartItem = {
         variantId: variant.id,
         title: product.title,
         price: parseFloat(variant.price.amount),
         quantity: 1,
         image: image?.url,
-        size: selectedSize, // Keep for display purposes
+        size: shouldHideSize ? undefined : selectedSize,
       };
       
       console.log('Cart item to add:', cartItem);
@@ -210,7 +219,13 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
   }
 
   return (
-    <div id="shop-section" className="product-grid-container">
+    <div 
+      id="shop-section" 
+      className="product-grid-container"
+      style={{
+        marginTop: '4rem',
+      }}
+    >
       {title && (
         <div className="product-grid-header">
           <h2 className="product-grid-title">{title}</h2>
@@ -244,6 +259,7 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
           })?.node;
           
           const price = variant?.price || product.priceRange.minVariantPrice;
+          const shouldHideSize = product.title.toLowerCase().includes('homura x options');
           
           return (
             <div key={product.id} className="product-item">
@@ -269,18 +285,18 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
                     <>
                       {(image.url.toLowerCase().includes('.gif') || image.url.toLowerCase().includes('.webp')) ? (
                       <img
-                        src={`${image.url.split('?')[0]}?quality=100&format=original&width=400&height=600`}
+                        src={`${image.url.split('?')[0]}?quality=100&format=original&width=1200&height=1800`}
                         alt={image.altText || product.title}
                         className="product-image gif-image webp-image"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     ) : (
                       <Image
-                        src={image.url.replace(/(_\d+x\d+)/g, '').split('?')[0] + '?width=800&quality=100'}
+                        src={image.url.replace(/(_\d+x\d+)/g, '').split('?')[0] + '?width=1200&quality=100'}
                         alt={image.altText || product.title}
                         fill
                         className="product-image"
-                        sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1440px) 25vw, 400px"
                         priority={index < 2} // Prioritize first 2 products like swiper
                         placeholder="blur"
                         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -306,41 +322,43 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
               </div>
               
               <div className="product-card">
-                <div className="variant-picker">
-                  <span className="variant-label">Size</span>
-                  <div className="variant-dropdown">
-                    <select 
-                      className="variant-select"
-                      value={selectedSize}
-                      onChange={(e) => handleSizeChange(product.id, e.target.value)}
-                    >
-                      {product.variants.edges
-                        .map(edge => {
-                          const sizeOption = edge.node.selectedOptions?.find(option => 
-                            option.name.toLowerCase() === 'size' || option.name.toLowerCase() === 'title'
-                          );
-                          const size = sizeOption?.value;
-                          const isAvailable = edge.node.availableForSale;
-                          
-                          return size ? (
-                            <option 
-                              key={edge.node.id} 
-                              value={size}
-                              disabled={!isAvailable}
-                              style={{
-                                textDecoration: !isAvailable ? 'line-through' : 'none',
-                                opacity: !isAvailable ? 0.5 : 1,
-                                color: !isAvailable ? '#999' : 'inherit'
-                              }}
-                            >
-                              {size} {!isAvailable ? '(Sold Out)' : ''}
-                            </option>
-                          ) : null;
-                        })
-                        .filter(Boolean)}
-                    </select>
+                {!shouldHideSize && (
+                  <div className="variant-picker">
+                    <span className="variant-label">Size</span>
+                    <div className="variant-dropdown">
+                      <select 
+                        className="variant-select"
+                        value={selectedSize}
+                        onChange={(e) => handleSizeChange(product.id, e.target.value)}
+                      >
+                        {product.variants.edges
+                          .map(edge => {
+                            const sizeOption = edge.node.selectedOptions?.find(option => 
+                              option.name.toLowerCase() === 'size' || option.name.toLowerCase() === 'title'
+                            );
+                            const size = sizeOption?.value;
+                            const isAvailable = edge.node.availableForSale;
+                            
+                            return size ? (
+                              <option 
+                                key={edge.node.id} 
+                                value={size}
+                                disabled={!isAvailable}
+                                style={{
+                                  textDecoration: !isAvailable ? 'line-through' : 'none',
+                                  opacity: !isAvailable ? 0.5 : 1,
+                                  color: !isAvailable ? '#999' : 'inherit'
+                                }}
+                              >
+                                {size} {!isAvailable ? '(Sold Out)' : ''}
+                              </option>
+                            ) : null;
+                          })
+                          .filter(Boolean)}
+                      </select>
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="product-info">
                   <button 
                     className="add-to-cart-btn"

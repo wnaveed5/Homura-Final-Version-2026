@@ -29,17 +29,15 @@ export default function Banner() {
   }, []);
 
   const desktopImages = [
-    '/images/Adobe Express - file2.jpg',
-    '/images/Adobe Express - file.jpg',
-    '/images/Adobe Express - file1.jpg'
+    '/images/hat1.jpg',
+    '/images/hat2.jpg',
+    '/images/hat3.jpg'
   ];
 
   const mobileImages = [
-    '/images/homura 4.png',
-    '/images/HOMURA outdoor-01.jpeg',
-    '/images/homura 6.png',
-    '/images/HOMURA 8.jpg',
-    '/images/HOMURA outdoor 9.jpg'
+    '/images/hat1.jpg',
+    '/images/hat2.jpg',
+    '/images/hat3.jpg'
   ];
 
   const images = mounted && isMobile ? mobileImages : desktopImages;
@@ -63,7 +61,12 @@ export default function Banner() {
   }
 
   return (
-    <div className="banner-container">
+    <div 
+      className="banner-container"
+      style={{
+        marginTop: isMobile ? '0' : '-3rem',
+      }}
+    >
       <Swiper
         modules={[Autoplay]}
         spaceBetween={0}
@@ -80,12 +83,12 @@ export default function Banner() {
             <div className="banner-slide">
               <Image 
                 src={image} 
-                alt={`Homura Banner ${index + 1}`} 
+                alt={`Homura Hat ${index + 1}`} 
                 fill
                 priority={index === 0}
-                quality={95}
+                quality={90}
                 className="banner-img"
-                sizes={isMobile ? "100vw" : "(max-width: 1200px) 80vw, 80vw"}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                 onLoad={() => {

@@ -44,12 +44,14 @@ export default function HomePage() {
               <strong>Contact</strong>
               <ul className="hmr-footer-sub-list">
                 <li className="hmr-footer-sub-item">
-                  <a href="/pages/contact-us">
+                  <a href="/contact">
                     Contact Us
                   </a>
                 </li>
                 <li className="hmr-footer-sub-item">
-                  <button className="hmr-subscribe-button" type="button">Subscribe to Newsletter</button>
+                  <a href="/newsletter">
+                    Early Access
+                  </a>
                 </li>
               </ul>
             </li>
@@ -57,7 +59,7 @@ export default function HomePage() {
               <strong>Social</strong>
               <ul className="hmr-footer-sub-list">
                 <li className="hmr-footer-sub-item">
-                  <a href="https://instagram.com/homer" target="_blank" rel="noreferrer noopener">
+                  <a href="https://www.instagram.com/homura.studios/?hl=en" target="_blank" rel="noreferrer noopener">
                     Instagram
                   </a>
                 </li>
@@ -67,12 +69,12 @@ export default function HomePage() {
               <strong>About</strong>
               <ul className="hmr-footer-sub-list">
                 <li className="hmr-footer-sub-item">
-                  <a href="/pages/delivery-information">
+                  <a href="/delivery">
                     Delivery Information
                   </a>
                 </li>
                 <li className="hmr-footer-sub-item">
-                  <a href="/pages/returns-and-exchanges">
+                  <a href="/returns">
                     Returns and Exchanges
                   </a>
                 </li>
