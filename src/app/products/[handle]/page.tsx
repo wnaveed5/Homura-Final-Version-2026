@@ -225,7 +225,7 @@ export default function ProductPage() {
     try {
       const image = product.images.edges[0]?.node;
       
-      const shouldHideSize = product.title.toLowerCase().includes('homura x options');
+      const shouldHideSize = product.title.toLowerCase().includes('triple o hat');
       const cartItem = {
         variantId: variant.id,
         title: product.title,
@@ -412,7 +412,7 @@ export default function ProductPage() {
           )}
 
           {/* Product Options */}
-          {!product.title.toLowerCase().includes('homura x options') && product.options.map(option => (
+          {!product.title.toLowerCase().includes('triple o hat') && product.options.map(option => (
             <div key={option.id} className="product-option">
               <label className="option-label">{option.name}</label>
               <div className="option-values">
@@ -455,7 +455,7 @@ export default function ProductPage() {
             </div>
 
             {/* Size Chart Button */}
-            {!product.title.toLowerCase().includes('homura x options') && (
+            {!product.title.toLowerCase().includes('triple o hat') && (
               <button 
                 className="size-chart-button"
                 onClick={() => setIsSizeChartOpen(true)}

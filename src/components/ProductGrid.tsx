@@ -71,10 +71,10 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
         const productsList = data.products.edges.map((edge: { node: Product }) => edge.node);
         console.log('Products list:', productsList);
         
-        // Move "Homura x Options" to the top
+        // Move "Triple O hat" to the top
         const sortedProducts = [...productsList].sort((a, b) => {
-          if (a.title.toLowerCase().includes('homura x options')) return -1;
-          if (b.title.toLowerCase().includes('homura x options')) return 1;
+          if (a.title.toLowerCase().includes('triple o hat')) return -1;
+          if (b.title.toLowerCase().includes('triple o hat')) return 1;
           return 0;
         });
         
@@ -166,7 +166,7 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
       const image = product.images.edges[0]?.node;
       console.log('Product image:', image);
       
-      const shouldHideSize = product.title.toLowerCase().includes('homura x options');
+      const shouldHideSize = product.title.toLowerCase().includes('triple o hat');
       const cartItem = {
         variantId: variant.id,
         title: product.title,
@@ -259,7 +259,7 @@ export default function ProductGrid({ limit = 8, title }: ProductGridProps) {
           })?.node;
           
           const price = variant?.price || product.priceRange.minVariantPrice;
-          const shouldHideSize = product.title.toLowerCase().includes('homura x options');
+          const shouldHideSize = product.title.toLowerCase().includes('triple o hat');
           
           return (
             <div key={product.id} className="product-item">
